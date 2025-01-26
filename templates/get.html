@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form class='/edit'}>
+        <div class='post'>
+            <h2>{% block title %}Reading for Day: {{ read.Bid }}:{{ read.Bdate }}{% endblock %}</h2>
+            <br/>
+            <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+                <div class="card-header">
+                    <pre><strong><label for="feedback" style="font-size: 150%; color: #000080;">{{ read.Book }}:{{ read.Chapter }}</label></strong></pre>
+                    <h5 class="card-body">
+                    </h5>
+                        <pre><textarea id="feedback"  rows="5" cols="60" 
+                            style="align-content:left overflow:auto; border:6px outset #000000;">{{ read['Feedback'] }}</textarea></pre>
+                    </h5>        
+                </div>
+            </div>
+            <br/>
+                <a href="{{ url_for('edit', Id=read['Bid']) }}">Edit</a>
+        </div>
+    </form>
+{% endblock %}

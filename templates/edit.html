@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>{% block title %} Edit for Day#: {{ reads[0] }} : {{ reads[1] }} {% endblock %}</h2>
+    <form method="POST">
+        <br/>
+        <div class="form-group">
+            <label for="feedback" name="Reading">{{ reads[2] }}:{{ reads[3] }}</label>
+            <br>
+            <textarea autofocus name="feedback" id="feedback"
+            rows="5" cols="60" style="text-align:left" required value="{{ request.form['Feedback'] or reads[5] }}">
+            </textarea>
+        </div><br/>
+        <div class="submit">
+            <pre>                       <button type="submit">Submit</button></pre>
+        </div>
+    </form>
+{% endblock %}

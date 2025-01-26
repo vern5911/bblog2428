@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>{% block title %} Readings for: {{ Title }} {% endblock %}</h2>
+  <form class='report'>
+      <br/>
+      <table style="border-collapse:collapse;table-layout:auto;width: 50%">
+        <col style="width:10%; text-align: center;">
+        <col style="width:30%; text-align: center;">
+        <col style="width:30%; text-align: center;">
+        <col style="width:30%; text-align: center;">
+        <tr>
+          <pre><th>Book</th></pre>
+          <pre><th>ID</th></pre>
+          <pre><th># of Chapters</th></pre>
+          <pre><th># No Feedback</th></pre>
+        </tr><br>
+        {% for read in reads %}    
+        <tr>
+          <pre><td>{{ read[0] }}</td></pre>
+          <pre><td>{{ read[1] }}</td></pre>
+          <pre><td>{{ read[2] }}</td></pre>
+          <pre><td>{{ read[3] }}</td></pre>
+        </tr>
+        {% endfor %}
+      </table>
+  </form>
+{% endblock %}
