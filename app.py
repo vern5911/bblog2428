@@ -7,9 +7,11 @@ from flask import Flask, render_template, request, url_for, flash, redirect, abo
 from datetime import datetime, date, timedelta
 from dateutil.parser import parser
 from icecream import ic
+from decouple import config
 
 # Define secret key to insure security
-secret_key = os.urandom(24).hex()
+# NOTE: 'secret_key' was transferred to .env file upon
+#       transition to Heroku.
 
 # Determine the current OS and set the DB Path accordingly
 def get_db_name():
@@ -32,7 +34,9 @@ def get_db_connection():
     return con
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = secret_key
+# Following setting transferred to variable in .env file
+# for Heroku deployment: 1/27/25
+#app.config['SECRET_KEY'] = secret_key
 
 # Set globals
 Today = date.today()
@@ -41,13 +45,13 @@ Id = (Today - iDate).days + 1
 
 @app.template_filter('strftime')
 def _jinja2_filter_datetime(date, fmt=None):
-    ic('date: ', date)
+    #ic('date: ', date)
     y=int(date[0:4]);m=int(date[5:7]);d=int(date[8:10])
-    ic('Jinja2: ',type(y),type(m),type(d))
+    #ic('Jinja2: ',type(y),type(m),type(d))
     date_=date(y,m,d)
     pdate = parser.parse(date_).strftime("%Y-%m-%d-%H-%M")
     native = date.replace(tzinfo=None)
-    ic('native: ', native)
+    #ic('native: ', native)
     format='%a %Y-%m-%d'
     return native.strftime(format) 
 
