@@ -7,6 +7,8 @@ from flask import Flask, render_template, request, url_for, flash, redirect, abo
 from datetime import datetime, date, timedelta
 from dateutil.parser import parser
 from icecream import ic
+import django_heroku
+import dj_database_url
 from decouple import config
 
 # Define secret key to insure security
