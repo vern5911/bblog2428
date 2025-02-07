@@ -2,7 +2,6 @@
 *.info
 bblogdev.*
 backup/
-.env
 *.sh
 *.ico
 Heroku*.txt
