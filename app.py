@@ -1,61 +1,38 @@
-# app.py : Windows 10 C:/flaskprod/bblog2428/app.py
-import sqlite3
+# app.py : Windows 10 /c/Users/Ed/Desktop/flaskprod/bblog2428/app.py
+#        : Installed gunicorn on 2/7/25
+#        : Updated bblog2428 on Github on 2/7/25
+#
 import os
-from pathlib import Path
-import platform
+import sqlite3
+from dotenv import load_dotenv
 from flask import Flask, render_template, request, url_for, flash, redirect, abort
-from datetime import datetime, date, timedelta
-from dateutil.parser import parser
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime, date
 from icecream import ic
-import django_heroku
-import dj_database_url
-from decouple import config
 
-# Define secret key to insure security
-# NOTE: 'secret_key' was transferred to .env file upon
-#       transition to Heroku.
+# Set the environmental variables for APP
+load_dotenv()                       # Load environment variables from .env file
 
-# Determine the current OS and set the DB Path accordingly
-def get_db_name():
-    # Test for "Windows", "Linux", or "Macbookpro(Darwin)"
-    # current_os = platform.system(); OS_Found = True;
-    # home_path=os.getcwd()
-    # Set a 'cross-platform' path to the DB file 
-    db_path = Path('bibleblog.sqlite')
-    if db_path.is_file():
-        return db_path.name
-    else:
-        return "Unknown DB file"
+db_name = os.getenv('DATABASE_URL')
+db_url = 'sqlite:///' + db_name
+secret_key = os.getenv('SECRET_KEY')
+
+# Instantiate the Bibleblog APP
+app = Flask(__name__)
+app.config['SECRET_KEY'] = secret_key
+app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 
 # Establish connection to the sqlite3 DB
 def get_db_connection():
-    db_name = get_db_name()
-    #ic('get_dbconnection(): ', db_name)
+    global db_name
     con = sqlite3.connect(db_name)
     con.row_factory = sqlite3.Row
     return con
-
-app = Flask(__name__)
-# Following setting transferred to variable in .env file
-# for Heroku deployment: 1/27/25
-#app.config['SECRET_KEY'] = secret_key
 
 # Set globals
 Today = date.today()
 iDate = date(2024,12,1)
 Id = (Today - iDate).days + 1
-
-@app.template_filter('strftime')
-def _jinja2_filter_datetime(date, fmt=None):
-    #ic('date: ', date)
-    y=int(date[0:4]);m=int(date[5:7]);d=int(date[8:10])
-    #ic('Jinja2: ',type(y),type(m),type(d))
-    date_=date(y,m,d)
-    pdate = parser.parse(date_).strftime("%Y-%m-%d-%H-%M")
-    native = date.replace(tzinfo=None)
-    #ic('native: ', native)
-    format='%a %Y-%m-%d'
-    return native.strftime(format) 
 
 def get_readings(r_id):
     conn = get_db_connection()
@@ -119,13 +96,14 @@ def edit(Id):
 def report(yrm):
     yym=str(yrm)
     # Generate string values for date values for SQL query
-    yr=str(f"{'20'+ yym[0:2]}"); mn=str(f"{yym[2:]}").zfill(2)
-    req_date = date(int(yr), int(mn), 1)
+    yr = str(f"{'20'+ yym[0:2]}"); mo = str(f"{yym[2:]}").zfill(2)
+    req_date = date(int(yr), int(mo), 1)
     Month=req_date.strftime('%B %Y')
-    con = get_db_connection()
+    conn = get_db_connection()
     sql_ = """SELECT * FROM bblog2428 WHERE substr(Bdate,1,4)=?
                         AND substr(Bdate,6,2)=?"""
-    reads = con.execute(sql_,(yr,mn)).fetchall()
+    reads = conn.execute(sql_,(yr,mo)).fetchall()
+    conn.close()
     return render_template('report.html', reads=reads, Month=Month)
 
 # Generate books list for those without feedback
@@ -145,7 +123,6 @@ def books():         # Parm = book name from the DB
     return render_template('books.html', reads=reads, Title=Title)
 
 
-
 if __name__=="__main__":
-    app.run(debug=True)
+    app.run()
 #
