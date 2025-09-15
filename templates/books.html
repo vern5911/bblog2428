@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>{% block title %} Readings for: {{ Title }} {% endblock %}</h2>
-  <form class='report'>
+  <h2>{% block title %}{{ Title }}{% endblock %}</h2>
+  <form class='books'>
       <br/>
       <table style="border-collapse:collapse;table-layout:auto;width: 50%">
         <col style="width:10%; text-align: center;">
@@ -13,7 +13,7 @@
           <pre><th>Book</th></pre>
           <pre><th>ID</th></pre>
           <pre><th># of Chapters</th></pre>
-          <pre><th># No Feedback</th></pre>
+          <pre><th># With Feedback</th></pre>
         </tr><br>
         {% for read in reads %}    
         <tr>

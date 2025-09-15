@@ -4,11 +4,10 @@
     <h2>{% block title %} Readings for Day: {{ reads.Bid }} || {{ tdate }} {% endblock %}</h2>
     <form class='/edit'}>
         <div class='post'>
-            <br/>
             <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
                 <div class="card-header">
-                    <pre><strong><label for="Reading" style="font-size: 14px;" value="{{ reads.Book }}:{{ reads.Chapter}}">
-                    </label></strong></pre><br/>
+                    <pre><strong><label for="Reading" style="font-size: 18px;" value="{{ reads.Book }}:{{ reads.Chapter}}">{{ reads.Book }}:{{ reads.Chapter }}
+                    </label></strong></pre>
                     <h5 class="card-body">
                     </h5>
                         <pre><textarea name="Feedback" rows="5" cols="60" 

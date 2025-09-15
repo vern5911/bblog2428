@@ -5,7 +5,7 @@
     <form method="POST">
         <br/>
         <div class="form-group">
-            <label for="feedback" name="Reading">{{ reads[2] }}:{{ reads[3] }}</label>
+            <label for="feedback" name="Reading">{{ reads[2] }}:{{ reads[3] }}</label><br/>
             <br>
             <textarea autofocus name="feedback" id="feedback"
             rows="5" cols="60" style="text-align:left" required value="{{ request.form['Feedback'] or reads[5] }}">

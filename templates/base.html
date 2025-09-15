@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %} {% endblock %}- BibleBlog App</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>{% block title %} {% endblock %}- BibleBlog</title>
     <style>
         .post {
             padding: 10px;
@@ -35,7 +36,7 @@
 </head>
 <body>
     <nav>
-        <a href="{{ url_for('index') }}">BibleBlog App</a>
+        <a href="{{ url_for('index') }}">BibleBlog</a>
         <a href="#">About</a>
     </nav>
     <hr>
